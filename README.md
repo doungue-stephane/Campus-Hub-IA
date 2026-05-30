@@ -90,22 +90,3 @@ docker compose exec api pytest
 ```
 
 - Remarque : le dossier `tests/` doit contenir des fichiers `test_*.py`.
-
-**Dépannage & notes importantes**
-
-- Warning `sh: locale: not found` dans l'image `postgres:alpine` : informatif, non bloquant.
-- `invalid length of startup packet` : souvent dû à une requête non-Postgres (ex. HTTP) sur le port 5432.
-- `psycopg2` vs `asyncpg` : le projet utilise `asyncpg` pour l'app et `psycopg2-binary` (ou `psycopg[binary]`) a été ajouté pour permettre à Alembic/SQLAlchemy sync d'importer un driver.
-- `bcrypt` / `passlib` : une incompatibilité de versions peut provoquer `module 'bcrypt' has no attribute '__about__'`. Utilisez les versions cohérentes (ex. `passlib==1.7.4` + `bcrypt==3.2.0`) ou `bcrypt_sha256` dans `passlib` pour supporter des mots de passe >72 bytes.
-- Si `alembic revision --autogenerate` échoue avec "Target database is not up to date", exécuter `alembic upgrade head` ou `alembic stamp <revision>` puis retrier.
-- Docker Compose : l'attribut `version:` est obsolète. Vous pouvez supprimer la ligne `version: '3.9'` de `docker-compose.yml`.
-
-**Prochaines étapes suggérées**
-
-- Ajouter des tests dans `tests/` (ex. `tests/test_auth.py`).
-- Compléter les routes et services pour les modules restants (events, projects, mentoring, clubs).
-- Ajouter CI pour exécuter `pytest` et vérifier les migrations.
-
----
-
-Si tu veux, j'ajoute ce fichier `README.md` au dépôt maintenant et je peux aussi créer un petit `Makefile` pour simplifier les commandes courantes.
