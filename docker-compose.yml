@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+
+  api:
+    build: .
+    container_name: campushub_api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - campushub_net
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: campushub_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - campushub_net
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+
+networks:
+  campushub_net:
+    driver: bridge
