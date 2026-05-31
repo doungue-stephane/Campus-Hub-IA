@@ -1,9 +1,5 @@
 import os
 import sys
-# alembic/env.py — complète les imports existants
-from app.modules.users.models import User, RefreshToken
-from app.modules.skills.models import Skill, UserSkill   # ← nouveau
-
 from logging.config import fileConfig
 from dotenv import load_dotenv
 
@@ -19,8 +15,18 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from app.core.config import settings
 from app.core.database import Base
-from app.modules.users.models import User, RefreshToken
 
+from app.modules.users.models import User, RefreshToken
+from app.modules.skills.models import Skill, UserSkill
+from app.modules.projects.models import Project, ProjectApplication, ProjectMember
+from app.modules.mentoring.models import (
+    MentoringPair,
+    MentoringSession,
+    MentoringMessage,
+)
+
+from app.modules.clubs.models import Club, ClubMember, ClubOffer  # ← nouveau
+from app.modules.events.models import Event, EventRegistration              # ← nouveau
 # this is the Alembic Config object, which provides access to the values within the .ini file in use.
 config = context.config
 

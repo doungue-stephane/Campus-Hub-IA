@@ -28,3 +28,7 @@ coverage==7.5.0
 
 # Utilitaires
 python-dotenv==1.0.1
+sentence-transformers==3.0.1
+torch==2.3.0
+scikit-learn==1.5.0
+numpy==1.26.4

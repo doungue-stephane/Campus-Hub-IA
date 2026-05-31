@@ -3,7 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.modules.auth.router import router as auth_router
+from app.modules.projects.router import router as projects_router
 from app.modules.skills.router import router as skills_router
+from app.modules.mentoring.router import router as mentoring_router
+from app.modules.clubs.router import router as clubs_router
+from app.modules.events.router import router as events_router
+
+
 
 
 app = FastAPI(
@@ -39,4 +45,7 @@ async def health_check():
 # ── Routers ───────────────────────────────────────────────
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 app.include_router(skills_router, prefix="/skills", tags=["Skills"])
-
+app.include_router(projects_router, prefix="/projects", tags=["Projects"])
+app.include_router(mentoring_router, prefix="/mentoring", tags=["Mentoring"])
+app.include_router(events_router,    prefix="/events",    tags=["Events"])
+app.include_router(clubs_router, prefix="/clubs", tags=["Clubs"])
